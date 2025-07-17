@@ -11,6 +11,7 @@ import com.exemplo.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,4 +37,11 @@ public class ProjetoService {
     public Optional<Projeto> buscarPorId(UUID id) {
         return projetoRepository.findById(id).map(projetoEntityMapper::toDomain);
     }
+
+    public List<Projeto> listaTodos() {
+        List<ProjetoEntity> projetoEntities = projetoRepository.findAllComTelefones();
+        projetoEntities.size();
+        return projetoEntityMapper.toDomainList(projetoEntities);
+    }
+
 }

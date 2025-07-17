@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,6 +17,12 @@ import java.util.UUID;
 public class ProjetoController {
 
     private final ProjetoService projetoService;
+
+    @GetMapping
+    public List<Projeto> listarTodos() {
+         List<Projeto> projetos  = projetoService.listaTodos();
+        return projetos;
+    }
 
     @PostMapping
     public ResponseEntity<Projeto> criar(@RequestBody ProjetoDTO dto) {
