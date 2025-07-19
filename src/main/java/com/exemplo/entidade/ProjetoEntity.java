@@ -1,6 +1,8 @@
 package com.exemplo.entidade;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,6 +12,8 @@ import java.util.UUID;
 
 @Data
 @Entity
+@ToString(exclude = {
+        "telefones"})
 public class ProjetoEntity {
 
     @Id
@@ -23,6 +27,8 @@ public class ProjetoEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id")
     private UsuarioEntity usuario;
+
     @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore // evita serialização infinita em REST
     private List<TelefoneEntity> telefones = new ArrayList<>();
 }

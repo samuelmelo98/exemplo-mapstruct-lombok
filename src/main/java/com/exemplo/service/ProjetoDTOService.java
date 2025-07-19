@@ -2,7 +2,6 @@ package com.exemplo.service;
 
 import com.exemplo.api.ProjetoDTO;
 import com.exemplo.dominio.Projeto;
-import com.exemplo.dominio.Usuario;
 import com.exemplo.entidade.ProjetoEntity;
 import com.exemplo.entidade.UsuarioEntity;
 import com.exemplo.mapper.ProjetoEntityMapper;
@@ -19,19 +18,18 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ProjetoService {
+public class ProjetoDTOService {
     private final ProjetoRepository projetoRepository;
     private final UsuarioRepository usuarioRepository;
     private final ProjetoEntityMapper projetoEntityMapper;
     private final ProjetoListagemMapper projetoListagemEntityMapper;
     private final UsuarioEntityMapper usuarioEntityMapper;
-    private final ProjetoDTOService projetoDTOService;
 
-    public Projeto salvar(Projeto projeto) {
-        UsuarioEntity usuarioEntity = usuarioRepository.findById(projeto.getUsuario().getId())
+    public Projeto salvar(ProjetoDTO projetoDTO) {
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(projetoDTO.getUsuarioId())
             .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
 
-        ProjetoEntity entity = projetoEntityMapper.toEntity(projeto);
+        ProjetoEntity entity = projetoListagemEntityMapper.toEntity(projetoDTO);
         entity.setUsuario(usuarioEntity);
 
         ProjetoEntity salvo = projetoRepository.save(entity);
@@ -45,9 +43,8 @@ public class ProjetoService {
         projetoDTO.setId(projetoEntity.getId());
         projetoDTO.setNome("projetoListagemEntityMapper");
         projetoDTO.setTelefones(projeto.getTelefones());
-        projetoDTO.setUsuarioId(projeto.getUsuario().getId());
         ProjetoEntity projetoEntity1 = projetoListagemEntityMapper.toEntity(projetoDTO);
-        projetoDTOService.salvar(projetoDTO);
+        this.salvar(projetoDTO);
         return projetoRepository.findById(id).map(projetoEntityMapper::toDomain);
     }
 

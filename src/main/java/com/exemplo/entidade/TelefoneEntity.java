@@ -1,8 +1,10 @@
 package com.exemplo.entidade;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -11,6 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString(exclude = {
+        "projeto"})
 public class TelefoneEntity {
 
     @Id
@@ -23,6 +27,7 @@ public class TelefoneEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "projeto_id")
+    @JsonIgnore
     private ProjetoEntity projeto;
 }
 

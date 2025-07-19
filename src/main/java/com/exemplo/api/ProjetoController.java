@@ -3,6 +3,7 @@ package com.exemplo.api;
 import com.exemplo.dominio.Projeto;
 import com.exemplo.dominio.Usuario;
 import com.exemplo.service.ProjetoService;
+import com.exemplo.service.TelefoneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.UUID;
 public class ProjetoController {
 
     private final ProjetoService projetoService;
+    private final TelefoneService telefoneService;
 
     @GetMapping
     public List<Projeto> listarTodos() {
@@ -35,6 +37,9 @@ public class ProjetoController {
         projeto.setUsuario(usuario);
 
         Projeto salvo = projetoService.salvar(projeto);
+        if(dto.getTelefones() != null){
+            telefoneService.salvarListaTelefone(dto.getTelefones(),salvo);
+        }
         return ResponseEntity.ok(salvo);
     }
 

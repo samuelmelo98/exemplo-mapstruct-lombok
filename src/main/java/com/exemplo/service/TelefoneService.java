@@ -1,5 +1,6 @@
 package com.exemplo.service;
 
+import com.exemplo.dominio.Projeto;
 import com.exemplo.dominio.Telefone;
 import com.exemplo.dominio.Usuario;
 import com.exemplo.entidade.TelefoneEntity;
@@ -45,5 +46,12 @@ public class TelefoneService {
                 .stream()
                 .map(telefoneEntityMapper::toDomain)
                 .collect(Collectors.toList());
+    }
+
+    public void salvarListaTelefone(List<Telefone> telefone, Projeto id) {
+        telefone.forEach(t -> {
+            t.setProjeto(id);
+            this.salvar(t);
+        });
     }
 }

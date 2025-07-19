@@ -6,7 +6,10 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = UsuarioEntityMapper.class)
+@Mapper(componentModel = "spring", uses = {
+        UsuarioEntityMapper.class,
+        TelefoneEntityMapper.class
+})
 public interface ProjetoEntityMapper {
     ProjetoEntity toEntity(Projeto projeto);
     Projeto toDomain(ProjetoEntity entity);
